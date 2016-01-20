@@ -39,7 +39,8 @@ int main(int argc, char* argv[])
 
 #if defined(__linux__)
 
-	cout << "running on linux";
+	cout << "running on linux"  << endl;
+	cout << "Added on linux" << endl;
 
 #endif
 
