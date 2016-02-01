@@ -30,11 +30,56 @@
 #include <iostream>
 using namespace std;
 
+//int for background
+int bkgdSpeed = 100;
+
+//create the SDL rectangle for the background textures position and size background 1 and 2
+SDL_Rect bkgd1Pos, bkgd2Pos;
+
+//Background float vars for movement
+float BG1pos_X = 0, BG1pos_Y = 0;
+float BG2pos_X = 0, BG2pos_Y = 0;
+
 
 //code for frame rate independence
 float deltaTime = 0.0;
 int thisTime = 0;
 int lastTime = 0;
+
+//move the background
+void UpdateBackGround()
+{
+
+	//Update background 1
+	BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
+
+	//set the new bkgd position
+	bkgd1Pos.y = (int)(BG1pos_Y + 0.5f);
+
+	//reset when off the bottom of the screen
+	if(bkgd1Pos.y >= 768){
+
+		bkgd1Pos.y = -768;
+
+		BG1pos_Y = bkgd1Pos.y;
+	}
+
+	//Update background 2
+	BG2pos_Y += (bkgdSpeed * 1) * deltaTime;
+
+	//set the new bkgd position
+	bkgd2Pos.y = (int)(BG2pos_Y + 0.5f);
+
+	//reset when off the bottom of the screen
+	if(bkgd2Pos.y >= 768){
+
+		bkgd2Pos.y = -768;
+
+		BG2pos_Y = bkgd2Pos.y;
+	}
+
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -200,6 +245,19 @@ while(!quit)
 
 		while(menu)
 		{
+			//set up frame rate for the section, or CASE
+			thisTime + SDL_GetTicks();
+			deltaTime = (float)(thisTime - lastTime)/1000;
+			lastTime = thisTime;
+
+
+			//check for input events
+			//if(SDL)_PollEvent
+
+
+
+		while(menu)
+		{
 			//check for input
 			if(SDL_PollEvent(&event))
 			{
@@ -253,6 +311,30 @@ while(!quit)
 
 				}// end button for input checks
 			}// end menu poll event
+
+			//update section
+			UpdateBackGround();
+
+
+			//Start drawing
+
+			//Clear SDL renderer
+			SDL_RenderClear(renderer);
+
+			//Draw the bkgd image 1
+			SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+			//Draw the bkgd image 2
+			SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+			//SDL Render present
+			SDL_RenderPresent(renderer);
+
+			};
+			break;
+
+
+
 		}// ends menu screen
 		break;
 
@@ -516,65 +598,6 @@ while(!quit)
 	}//ends switch for gameState
 
 }//ends game loop
-
-
-while(menu)
-{
-	//set up frame rate for the section, or CASE
-	thisTime + SDL_GetTicks();
-	deltaTime = (float)(thisTime - lastTime)/1000;
-	lastTime = thisTime;
-
-
-	//check for input events
-	//if(SDL)_PollEvent
-
-//update
-
-//Update background 1
-BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
-
-//set the new bkgd position
-bkgd1Pos.y = (int)(BG1Pos_Y + 0.5f);
-
-//reset when off the bottom of the screen
-if(bkgd1Pos.y >= 768){
-
-	bkgd1Pos.y = -768;
-
-	BG1pos_Y = bkgd1Pos.y;
-}
-
-//Update background 2
-BG2pos_Y += (bkgdSpeed * 1) * deltaTime;
-
-//set the new bkgd position
-bkgd2Pos.y = (int)(BG2Pos_Y + 0.5f);
-
-//reset when off the bottom of the screen
-if(bkgd2Pos.y >= 768){
-
-	bkgd2Pos.y = -768;
-
-	BG2pos_Y = bkgd2Pos.y;
-}
-
-//Start drawing
-
-//Clear SDL renderer
-SDL_RenderClear(renderer);
-
-//Draw the bkgd image 1
-SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
-
-//Draw the bkgd image 2
-SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
-
-//SDL Render present
-SDL_RenderPresent(renderer);
-
-};
-break;
 
     // The window is open: could enter program loop here (see SDL_PollEvent())
     SDL_Delay(3000);  // Pause execution for 3000 milliseconds, for example
