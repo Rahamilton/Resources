@@ -166,7 +166,356 @@ cursorPos.h = 64;
 SDL_GameController *gGameController = NULL;
 
 // Open controller
-//gGameController = SDL_
+gGameController = SDL_GameControllerOpen(0);
+
+//turn on controller events
+SDL_GameControllerEventState(SDL_ENABLE);
+
+//SDL Event to handle input
+SDL_Event event;
+
+//state up our enum to handle the multiple gae states
+enum GameState { MENU, INSTRUCTIONS, PLAYERS1, PLAYERS2, WIN, LOSE};
+
+//var enum to track where we are in game
+GameState gameState = MENU;
+
+//bool values to allow movement through the individual states
+bool menu, intructions, players1, players2, win, lose, quit;
+
+while(!quit)
+{
+
+	switch(gameState)
+	{
+	case MENU:
+
+		menu = true;
+		cout << "The Game State is MENU" << endl;
+		cout << "Press the A Button for Intructions" << endl;
+		cout << "Press the B Button for 1 Player Game" << endl;
+		cout << "Press the X Button for 2 Player Game" << endl;
+		cout << "Press the Y Button for Quit Game" << endl;
+		cout << endl;
+
+		while(menu)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					menu = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - instructions
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							menu = false;
+							gameState = INSTRUCTIONS;
+						}
+
+						//if B button - 1 player game
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+						{
+							menu = false;
+							gameState = PLAYERS1;
+						}
+						//if X button 2 player game
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_X)
+						{
+							menu = false;
+							gameState = PLAYERS2;
+						}
+						//if Y button - quit
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_Y)
+						{
+							menu = false;
+							quit = true;
+						}
+
+
+					}// end joystick 0 check
+					break;
+
+				}// end button for input checks
+			}// end menu poll event
+		}// ends menu screen
+		break;
+
+	case INSTRUCTIONS:
+
+		instructions = true;
+		cout << "The Game State is INSTRUCTIONS" << endl;
+		cout << "Press the A Button for Main Menu" << endl;
+		cout << endl;
+
+		while(instructions)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					instructions = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - instructions
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							instructions = false;
+							gameState = MENU;
+						}
+
+					}// end joystick 0 check
+					break;
+
+				}// end button for input checks
+			}// end instructions poll event
+		}// ends instructions screen
+		break;
+
+	case PLAYERS1:
+
+		players1 = true;
+		cout << "The Game State is PLAYERS1" << endl;
+		cout << "Press the A Button for WIN Screen" << endl;
+		cout << "Press the B Button for LOSE Screen" << endl;
+		cout << endl;
+
+		while(players1)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					players1 = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - WIN
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							players1 = false;
+							gameState = WIN;
+						}
+
+						//if B button - LOSE
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+						{
+							players1 = false;
+							gameState = LOSE;
+						}
+
+					}// end joystick 0 check
+					break;
+				}// end button for input checks
+			}// end players1 poll event
+		}// ends players1 screen
+		break;
+
+	case PLAYERS2:
+
+		players2 = true;
+		cout << "The Game State is PLAYERS2" << endl;
+		cout << "Press the A Button for WIN Screen" << endl;
+		cout << "Press the B Button for LOSE Screen" << endl;
+		cout << endl;
+
+		while(players2)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					players2 = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - WIN
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							players2 = false;
+							gameState = WIN;
+						}
+
+						//if B button - LOSE
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+						{
+							players2 = false;
+							gameState = LOSE;
+						}
+
+					}// end joystick 0 check
+					break;
+				}// end button for input checks
+			}// end players2 poll event
+		}// ends players2 screen
+		break;
+
+	case WIN:
+
+		win = true;
+		cout << "The Game State is WIN" << endl;
+		cout << "Press the A Button for Main Menu" << endl;
+		cout << "Press the B Button to Quit" << endl;
+		cout << endl;
+
+		while(win)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					win = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - MENU
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							win = false;
+							gameState = MENU;
+						}
+
+						//if B button - Quit
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+						{
+							win = false;
+							quit = true;
+						}
+
+					}// end joystick 0 check
+					break;
+				}// end button for input checks
+			}// end win poll event
+		}// ends win screen
+		break;
+
+	case LOSE:
+
+		lose = true;
+		cout << "The Game State is LOSE" << endl;
+		cout << "Press the A Button for Main Menu" << endl;
+		cout << "Press the B Button to Quit" << endl;
+		cout << endl;
+
+		while(lose)
+		{
+			//check for input
+			if(SDL_PollEvent(&event))
+			{
+				//see if the player closes the window via the windows 'X' button
+				if(event.type == SDL_QUIT)
+				{
+					quit = true;
+					lose = false;
+					break;
+				}
+
+				//test for controller input
+				switch(event.type)
+				{
+
+				case SDL_CONTROLLERBUTTONDOWN;
+
+					//checks to see if this is controller 0
+					if(event.cdevice.which == 0)
+					{
+
+						//if A button - MENU
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A)
+						{
+							lose = false;
+							gameState = MENU;
+						}
+
+						//if B button - QUIT
+						if(event.cbutton.button == SDL_CONTROLLER_BUTTON_B)
+						{
+							lose = false;
+							quit = true;
+						}
+
+					}// end joystick 0 check
+					break;
+				}// end button for input checks
+			}// end lose poll event
+		}// ends lose screen
+		break;
+
+
+
+
+
+	}//ends switch for gameState
+
+}//ends game loop
 
 
 while(menu)
