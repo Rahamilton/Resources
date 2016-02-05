@@ -385,7 +385,7 @@ float BG2pos_X = 0, BG2_Y = 0;
 
     //******** Create Cursor - Start **********
 
-    string CURSORpath = s_cwd_images +"/cursor.png";
+    string CURSORpath = s_cwd_images +"/Cursor.png";
 
     // create a SDL surface to hold the background image
     SDL_Surface *surface = IMG_Load(CURSORpath.c_str());
