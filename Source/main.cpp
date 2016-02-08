@@ -191,6 +191,8 @@ float BG2pos_X = 0, BG2_Y = 0;
 
 //************ Create Backgrounds - END *****************
 
+//*********** Create Main Menu - Start **************
+
 //************ Create Title - Start *****************
 
 	string BKGDpath = s_cwd_images + "/title.png";
@@ -382,6 +384,7 @@ float BG2pos_X = 0, BG2_Y = 0;
 
     //******** Quit Game - End ***********
 
+    //*********** Create Main Menu - End ****************
 
     //******** Create Cursor - Start **********
 
@@ -393,7 +396,7 @@ float BG2pos_X = 0, BG2_Y = 0;
     // create a SDL texture - background 1
     SDL_Texture *cursor;
 
-    //place surace into texture
+    //place surface into texture
     cursor = SDL_CreateTextureFromSurface(renderer, surface);
 
     //create the SDL_Cursor for the texture's position and size -x,y,w,h
@@ -416,10 +419,6 @@ float BG2pos_X = 0, BG2_Y = 0;
 
     //********** Create Cursor - End *************
 
-
-//*********** Create Main Menu - Start **************
-
-//*********** Create Main Menu - End ****************
 
 // set up Game controller variable
 SDL_GameController *gGameController = NULL;
@@ -464,14 +463,6 @@ while(!quit)
 			deltaTime = (float)(thisTime - lastTime)/1000;
 			lastTime = thisTime;
 
-
-			//check for input events
-			//if(SDL)_PollEvent
-
-
-
-		while(menu)
-		{
 			//check for input
 			if(SDL_PollEvent(&event))
 			{
@@ -487,7 +478,7 @@ while(!quit)
 				switch(event.type)
 				{
 
-				case SDL_CONTROLLERBUTTONDOWN;
+					case SDL_CONTROLLERBUTTONDOWN;
 
 					//checks to see if this is controller 0
 					if(event.cdevice.which == 0)
@@ -579,6 +570,12 @@ while(!quit)
 
 		while(instructions)
 		{
+
+			//set up frame rate for the section, or CASE
+			thisTime + SDL_GetTicks();
+			deltaTime = (float)(thisTime - lastTime)/1000;
+			lastTime = thisTime;
+
 			//check for input
 			if(SDL_PollEvent(&event))
 			{
@@ -612,6 +609,32 @@ while(!quit)
 
 				}// end button for input checks
 			}// end instructions poll event
+
+			//update section
+			UpdateBackGround();
+
+			//Clear SDL renderer
+			SDL_RenderClear(renderer);
+
+			//Draw the bkgd image 1
+			SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
+
+			//Draw the bkgd image 2
+			SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+			//Draw the title image
+			SDL_RenderCopy(renderer, title, NULL, &titlePos);
+
+			//Draw the Cursor image
+			SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
+
+			//SDL Render present
+			SDL_RenderPresent(renderer);
+
+
+
+
+
 		}// ends instructions screen
 		break;
 
